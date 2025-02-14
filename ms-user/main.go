@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dapidsurya/cakap-aws-internship/handler"
+	"github.com/dapidsurya/cakap-aws-internship/ms-user/handler"
 	"github.com/gorilla/mux"
 )
 

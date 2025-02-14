@@ -1,4 +1,4 @@
-module github.com/dapidsurya/cakap-aws-internship
+module github.com/dapidsurya/cakap-aws-internship/ms-user
 
 go 1.21.1
 

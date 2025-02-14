@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/dapidsurya/cakap-aws-internship/model/entity"
+	"github.com/dapidsurya/cakap-aws-internship/ms-user/model/entity"
 	"github.com/gorilla/mux"
 )
 
