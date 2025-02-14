@@ -1,0 +1,9 @@
+services:
+  belajar-html:
+    image: belajar-html:1.0.1
+    container_name: belajar-html
+    build:
+      context: app
+      dockerfile: Dockerfile
+    ports:
+      - "8070:80"

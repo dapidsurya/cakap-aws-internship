@@ -1,0 +1,30 @@
+services:
+  nginx-1:
+    image: nginx:latest
+    # ports:
+    #   - "8090-8091:80"
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 200M
+        reservations:
+          cpus: '0.25'
+          memory: 100M
+
+  nginx-2:
+    image: nginx:latest
+    ports:
+      - protocol: tcp
+        target: 80
+        published: "8092-8094"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 200M
+        reservations:
+          cpus: '0.25'
+          memory: 100M

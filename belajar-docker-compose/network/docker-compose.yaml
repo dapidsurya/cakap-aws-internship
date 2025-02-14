@@ -1,0 +1,21 @@
+services:
+  nginx-1:
+    image: nginx:latest
+    ports:
+      - "8090-8091:80"
+    networks:
+      - my-network
+
+  nginx-2:
+    image: nginx:latest
+    ports:
+      - protocol: tcp
+        target: 80
+        published: "8092-8094"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    name: my-network
+    driver: bridge

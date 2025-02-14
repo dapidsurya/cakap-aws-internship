@@ -1,0 +1,19 @@
+networks:
+  internal-network:
+    name: internal-network
+    driver: bridge
+
+services:
+  order-service:
+    image: golang:latest
+    container_name: order-service
+    networks:
+      - internal-network
+  cart-service:
+    image: php:latest
+    container_name: cart-service
+    networks:
+      - internal-network
+  payment-service:
+    image: golang:latest
+    container_name: payment-service
