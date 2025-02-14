@@ -8,14 +8,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, Cakap x AWS Academy!")
-}
-
 func main() {
 	route := mux.NewRouter()
 
-	route.HandleFunc("/", hello)
+	route.HandleFunc("/", handler.Hello)
 	route.HandleFunc("/user/list", handler.GetUserList).Methods("GET")
 	route.HandleFunc("/user/{username}", handler.GetUserByUsername).Methods("GET")
 
