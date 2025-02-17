@@ -1,0 +1,26 @@
+services:
+  ms-user:
+    image: ms-user:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms-user
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "8080:8081"
+    networks:
+      - user-network
+
+  db:
+    image: mysql:latest
+    container_name: ms-user-db
+    environment:
+      MYSQL_ROOT_PASSWORD: myrootpassword
+    networks:
+      - user-network
+
+networks:
+  user-network:
+    name: user-network

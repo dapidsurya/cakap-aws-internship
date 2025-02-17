@@ -15,6 +15,7 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /app/app .
+COPY --from=builder /app/.env.docker /app/.env
 
 EXPOSE 8081
 
