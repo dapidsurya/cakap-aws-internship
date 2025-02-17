@@ -5,3 +5,7 @@ type User struct {
 	Fullname string `json:"fullname"`
 	Email    string `json:"email"`
 }
+
+func (User) TableName() string {
+	return "user"
+}
