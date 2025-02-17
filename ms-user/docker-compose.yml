@@ -20,7 +20,15 @@ services:
       MYSQL_ROOT_PASSWORD: myrootpassword
     networks:
       - user-network
+    volumes: 
+      - user-db-data:/var/lib/mysql
 
 networks:
   user-network:
     name: user-network
+
+volumes:
+  user-db-data:
+    name: user-db-data
+    labels:
+      - "User database volume"
