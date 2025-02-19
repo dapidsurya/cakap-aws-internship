@@ -9,31 +9,36 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var users = []entity.User{
-	{Username: "dapid", Fullname: "David", Email: "dapid@example.com"},
-	{Username: "joko", Fullname: "Joko Santoso", Email: "joko@example.com"},
-	{Username: "budi", Fullname: "Budi Santoso", Email: "budi@example.com"},
+type UserHandler interface {
+	GetUserList(w http.ResponseWriter, r *http.Request)
+	GetUserByUsername(w http.ResponseWriter, r *http.Request)
+	RegisterNewUser(w http.ResponseWriter, r *http.Request)
 }
 
-func GetUserList(w http.ResponseWriter, r *http.Request) {
-	repo := repository.NewUserRepository()
-	users := repo.FindAllUser()
+type userHandler struct {
+	repo repository.UserRepository
+}
+
+func InitUserHandler(repo repository.UserRepository) UserHandler {
+	return &userHandler{repo: repo}
+}
+
+func (h *userHandler) GetUserList(w http.ResponseWriter, r *http.Request) {
+	users := h.repo.FindAllUser()
 	json.NewEncoder(w).Encode(users)
 }
 
-func GetUserByUsername(w http.ResponseWriter, r *http.Request) {
-	repo := repository.NewUserRepository()
+func (h *userHandler) GetUserByUsername(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	username := vars["username"]
 
-	user, _ := repo.FindUserByUsername(username)
+	user, _ := h.repo.FindUserByUsername(username)
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(user)
 }
 
-func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
-	repo := repository.NewUserRepository()
+func (h *userHandler) RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 	var user entity.User
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -41,7 +46,7 @@ func RegisterNewUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := repo.CreateUser(&user); err != nil {
+	if err := h.repo.CreateUser(&user); err != nil {
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return
 	}

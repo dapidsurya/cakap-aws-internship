@@ -19,12 +19,14 @@ func main() {
 
 	config.ConnectDatabase()
 
+	app := config.InitializeApp()
+
 	route := mux.NewRouter()
 
 	route.HandleFunc("/", handler.Hello)
-	route.HandleFunc("/user/list", handler.GetUserList).Methods("GET")
-	route.HandleFunc("/user/{username}", handler.GetUserByUsername).Methods("GET")
-	route.HandleFunc("/user", handler.RegisterNewUser).Methods("POST")
+	route.HandleFunc("/user/list", app.UserHandler.GetUserList).Methods("GET")
+	route.HandleFunc("/user/{username}", app.UserHandler.GetUserByUsername).Methods("GET")
+	route.HandleFunc("/user", app.UserHandler.RegisterNewUser).Methods("POST")
 
 	fmt.Println("Server is listening on port 8081...")
 
