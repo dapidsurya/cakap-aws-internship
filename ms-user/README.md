@@ -34,7 +34,7 @@ mysql -u root -p
 
 Then create the database as well as the table
 ```sql
-CREATE DATABASE aws_academy;
+CREATE DATABASE aws_academy_user;
 
 USE aws_academy;
 
