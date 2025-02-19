@@ -25,6 +25,7 @@ func main() {
 
 	route.HandleFunc("/", handler.Hello)
 	route.HandleFunc("/user/list", app.UserHandler.GetUserList).Methods("GET")
+	route.HandleFunc("/user/list-with-product", app.UserHandler.GetUserListWithProduct).Methods("GET")
 	route.HandleFunc("/user/{username}", app.UserHandler.GetUserByUsername).Methods("GET")
 	route.HandleFunc("/user", app.UserHandler.RegisterNewUser).Methods("POST")
 

@@ -1,0 +1,68 @@
+services:
+  ms-user:
+    image: ms-user:latest
+    build:
+      context: ms-user
+      dockerfile: Dockerfile
+    container_name: ms-user
+    depends_on:
+      - db-user
+    restart: always
+    ports:
+      - "8080:8081"
+    networks:
+      - user-network
+      - ms-network
+
+  db-user:
+    image: mysql:latest
+    container_name: ms-user-db
+    environment:
+      MYSQL_ROOT_PASSWORD: myrootpassword
+    networks:
+      - user-network
+    volumes: 
+      - user-db-data:/var/lib/mysql
+
+  ms-product:
+    image: ms-product:latest
+    build:
+      context: ms-product
+      dockerfile: Dockerfile
+    container_name: ms-product
+    depends_on:
+      - db-product
+    restart: always
+    ports:
+      - "8090:8081"
+    networks:
+      - product-network
+      - ms-network
+
+  db-product:
+    image: mysql:latest
+    container_name: ms-product-db
+    environment:
+      MYSQL_ROOT_PASSWORD: myrootpassword
+    networks:
+      - product-network
+    volumes: 
+      - product-db-data:/var/lib/mysql
+
+networks:
+  user-network:
+    name: user-network
+  product-network:
+    name: product-network
+  ms-network:
+    name: ms-network
+
+volumes:
+  user-db-data:
+    name: user-db-data
+    labels:
+      - "User database volume"
+  product-db-data:
+    name: product-db-data
+    labels:
+      - "Product database volume"

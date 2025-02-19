@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/dapidsurya/cakap-aws-internship/ms-user/internal/tools"
+	"github.com/dapidsurya/cakap-aws-internship/ms-user/model/dto"
 	"github.com/dapidsurya/cakap-aws-internship/ms-user/model/entity"
 	"github.com/dapidsurya/cakap-aws-internship/ms-user/repository"
 	"github.com/gorilla/mux"
@@ -11,6 +13,7 @@ import (
 
 type UserHandler interface {
 	GetUserList(w http.ResponseWriter, r *http.Request)
+	GetUserListWithProduct(w http.ResponseWriter, r *http.Request)
 	GetUserByUsername(w http.ResponseWriter, r *http.Request)
 	RegisterNewUser(w http.ResponseWriter, r *http.Request)
 }
@@ -26,6 +29,30 @@ func InitUserHandler(repo repository.UserRepository) UserHandler {
 func (h *userHandler) GetUserList(w http.ResponseWriter, r *http.Request) {
 	users := h.repo.FindAllUser()
 	json.NewEncoder(w).Encode(users)
+}
+
+func (h *userHandler) GetUserListWithProduct(w http.ResponseWriter, r *http.Request) {
+	users := h.repo.FindAllUser()
+	var userWithProducts []dto.UserDto
+
+	for _, user := range users {
+		var userProducts []dto.ProductDto
+		products, err := tools.GetProductByUserId(user.ID)
+
+		if err == nil {
+			userProducts = products
+		}
+
+		userWithProducts = append(userWithProducts, dto.UserDto{
+			ID:       user.ID,
+			Username: user.Username,
+			Fullname: user.Fullname,
+			Email:    user.Email,
+			Products: userProducts,
+		})
+	}
+
+	json.NewEncoder(w).Encode(userWithProducts)
 }
 
 func (h *userHandler) GetUserByUsername(w http.ResponseWriter, r *http.Request) {
