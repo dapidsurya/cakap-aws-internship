@@ -1,7 +1,7 @@
 
-# User Microservice
+# Product Microservice
 
-This is microservice for maintaining user data.
+This is microservice for maintaining product data.
 
 ## Setup Using Docker Compose
 Run this command to build the image and run container using docker compose
@@ -11,10 +11,10 @@ docker compose up -d --build
 ```
 If you see the result like this, then the apps should be run
 ```bash
- ✔ ms-user                 Built    0.0s 
- ✔ Network user-network    Started  0.1s
- ✔ Container ms-user-db    Started  0.2s
- ✔ Container ms-user       Started  0.3s
+ ✔ ms-product                 Built    0.0s 
+ ✔ Network product-network    Started  0.1s
+ ✔ Container ms-product-db    Started  0.2s
+ ✔ Container ms-product       Started  0.3s
 ```
 
 Make sure the apps run on docker correctly by running
@@ -22,12 +22,12 @@ Make sure the apps run on docker correctly by running
 docker compose ps
 ```
 
-In the initial run, the ms-user wouldn't start because the database is not created. To create the database you can go to ms-user-db container by running this command
+In the initial run, the ms-product wouldn't start because the database is not created. To create the database you can go to ms-product-db container by running this command
 ```bash
-docker exec -it ms-user-db /bin/bash
+docker exec -it ms-product-db /bin/bash
 ```
 
-If you successfully go inside the ms-user-db container, then connect to mysql server.
+If you successfully go inside the ms-product-db container, then connect to mysql server.
 ```bash
 mysql -u root -p
 ```
@@ -36,7 +36,7 @@ Then create the database as well as the table
 ```sql
 CREATE DATABASE aws_academy_product;
 
-USE aws_academy;
+USE aws_academy_product;
 
 CREATE TABLE `product` (
   `id_product` int NOT NULL AUTO_INCREMENT,
@@ -47,23 +47,23 @@ CREATE TABLE `product` (
 );
 ```
 
-Then make sure if ms-user run well by running this command
+Then make sure if ms-product run well by running this command
 ```bash
 docker compose ps
 ```
 
-## Register New User
-Congratulations! Now your application is running. Now if you access the API user list, it will show empty datas.
+## Create New Product
+Congratulations! Now your application is running. Now if you access the API, it will show welcome message.
 ```bash
-curl --location 'http://localhost:8080/user/list'
+curl --location 'http://localhost:8090/'
 ```
-To register new user, you need to call this API and please adjust the payload data accordingly.
+To create new product based on userID, you need to call this API and please adjust the payload data accordingly.
 ```bash
-curl --location 'localhost:8080/user' \
+curl --location 'localhost:8090/product' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "username": "budi",
-    "fullname": "Budi Anduk",
-    "email": "budi@email.com"
+--data '{
+    "userId": 1,
+    "name": "USB type C Cable 1A",
+    "stock": 11
 }'
 ```

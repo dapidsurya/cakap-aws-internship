@@ -36,7 +36,7 @@ Then create the database as well as the table
 ```sql
 CREATE DATABASE aws_academy_user;
 
-USE aws_academy;
+USE aws_academy_user;
 
 CREATE TABLE `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
