@@ -1,0 +1,34 @@
+services:
+  ms-product:
+    image: ms-product:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms-product
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "8090:8081"
+    networks:
+      - product-network
+
+  db:
+    image: mysql:latest
+    container_name: ms-product-db
+    environment:
+      MYSQL_ROOT_PASSWORD: myrootpassword
+    networks:
+      - product-network
+    volumes: 
+      - product-db-data:/var/lib/mysql
+
+networks:
+  product-network:
+    name: product-network
+
+volumes:
+  product-db-data:
+    name: product-db-data
+    labels:
+      - "Product database volume"
