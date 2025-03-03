@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-annotation
+  labels:
+    team: backend
+    env: production
+  annotations:
+    description: Nginx untuk tim backend production
+    team: Backend
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
