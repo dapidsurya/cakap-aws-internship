@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: belajar-html
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: belajar-html
+  template:
+    metadata:
+      labels:
+        app: belajar-html
+    spec:
+      containers:
+      - name: belajar-html
+        image: belajar-html:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
